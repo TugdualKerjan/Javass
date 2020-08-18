@@ -1,11 +1,6 @@
 package ch.epfl.javass.bonus;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.SourceDataLine;
-import javax.sound.sampled.TargetDataLine;
+import javax.sound.sampled.*;
 
 public class Soundlines {
 
@@ -13,7 +8,8 @@ public class Soundlines {
     private static TargetDataLine targetDataLine = getLineIn();
     private static SourceDataLine sourceDataLine = getLineOut();
 
-    private Soundlines() { }
+    private Soundlines() {
+    }
 
     public static TargetDataLine getInput() {
         return targetDataLine;

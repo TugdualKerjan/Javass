@@ -15,10 +15,7 @@ import ch.epfl.javass.jass.Card.Color;
 import ch.epfl.javass.jass.Card.Rank;
 
 public class PackedCardSetTest {
-    private static final long EMPTY_SET = 0L;
-    private static final long FULL_SET = 0x01FF_01FF_01FF_01FFL;
-
-    static final long[] ALL_SINGLETONS = new long[] {
+    static final long[] ALL_SINGLETONS = new long[]{
             0x0000000000000001L,
             0x0000000000000002L,
             0x0000000000000004L,
@@ -56,8 +53,7 @@ public class PackedCardSetTest {
             0x0080000000000000L,
             0x0100000000000000L,
     };
-
-    static final int[] ALL_PACKED_CARDS = new int[] {
+    static final int[] ALL_PACKED_CARDS = new int[]{
             0b00_0000,
             0b00_0001,
             0b00_0010,
@@ -95,6 +91,8 @@ public class PackedCardSetTest {
             0b11_0111,
             0b11_1000,
     };
+    private static final long EMPTY_SET = 0L;
+    private static final long FULL_SET = 0x01FF_01FF_01FF_01FFL;
 
     static long nextSet(SplittableRandom rng) {
         return rng.nextLong() & FULL_SET;
@@ -118,7 +116,7 @@ public class PackedCardSetTest {
 
     @Test
     void isValidAcceptsAllSingletons() {
-        for (long s: ALL_SINGLETONS)
+        for (long s : ALL_SINGLETONS)
             assertTrue(PackedCardSet.isValid(s));
     }
 
@@ -134,7 +132,7 @@ public class PackedCardSetTest {
 
     @Test
     void trumpAboveIsCorrect() {
-        long[] expSets = new long[] {
+        long[] expSets = new long[]{
                 0x00000000000001feL,
                 0x00000000000001fcL,
                 0x00000000000001f8L,
@@ -173,7 +171,7 @@ public class PackedCardSetTest {
                 0x0028000000000000L,
         };
         int i = 0;
-        for (int c: ALL_PACKED_CARDS) {
+        for (int c : ALL_PACKED_CARDS) {
             assertEquals(expSets[i++], PackedCardSet.trumpAbove(c));
         }
     }
@@ -181,7 +179,7 @@ public class PackedCardSetTest {
     @Test
     void singletonIsCorrect() {
         int i = 0;
-        for (int c: ALL_PACKED_CARDS) {
+        for (int c : ALL_PACKED_CARDS) {
             assertEquals(ALL_SINGLETONS[i++], PackedCardSet.singleton(c));
         }
     }
@@ -209,7 +207,7 @@ public class PackedCardSetTest {
     @Test
     void getWorksOnFullSet() {
         int i = 0;
-        for (int c: ALL_PACKED_CARDS) {
+        for (int c : ALL_PACKED_CARDS) {
             assertEquals(c, PackedCardSet.get(FULL_SET, i++));
         }
     }
@@ -217,7 +215,7 @@ public class PackedCardSetTest {
     @Test
     void getWorksOnSingletons() {
         int i = 0;
-        for (int c: ALL_PACKED_CARDS) {
+        for (int c : ALL_PACKED_CARDS) {
             assertEquals(c, PackedCardSet.get(ALL_SINGLETONS[i++], 0));
         }
     }
@@ -226,7 +224,7 @@ public class PackedCardSetTest {
     void addCanBuildFullSet() {
         long s = PackedCardSet.EMPTY;
         int expectedSize = 0;
-        for (int c: ALL_PACKED_CARDS) {
+        for (int c : ALL_PACKED_CARDS) {
             s = PackedCardSet.add(s, c);
             expectedSize += 1;
             assertEquals(expectedSize, PackedCardSet.size(s));
@@ -260,7 +258,7 @@ public class PackedCardSetTest {
     void removeCanEmptyFullSet() {
         long s = PackedCardSet.ALL_CARDS;
         int expectedSize = 36;
-        for (int c: ALL_PACKED_CARDS) {
+        for (int c : ALL_PACKED_CARDS) {
             s = PackedCardSet.remove(s, c);
             expectedSize -= 1;
             assertEquals(expectedSize, PackedCardSet.size(s));
@@ -282,7 +280,7 @@ public class PackedCardSetTest {
     @Test
     void containsWorksOnEmptySet() {
         long s = PackedCardSet.EMPTY;
-        for (int c: ALL_PACKED_CARDS) {
+        for (int c : ALL_PACKED_CARDS) {
             assertFalse(PackedCardSet.contains(s, c));
         }
     }
@@ -290,7 +288,7 @@ public class PackedCardSetTest {
     @Test
     void containsWorksOnFullSet() {
         long s = PackedCardSet.ALL_CARDS;
-        for (int c: ALL_PACKED_CARDS) {
+        for (int c : ALL_PACKED_CARDS) {
             assertTrue(PackedCardSet.contains(s, c));
         }
     }
@@ -470,7 +468,7 @@ public class PackedCardSetTest {
 
     @Test
     void subsetOfColorHasRightSize() {
-        for (Color c: Color.ALL) {
+        for (Color c : Color.ALL) {
             assertEquals(9, PackedCardSet.size(PackedCardSet.subsetOfColor(PackedCardSet.ALL_CARDS, c)));
         }
     }

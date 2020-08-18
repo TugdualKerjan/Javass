@@ -1,40 +1,23 @@
 package ch.epfl.javass.net;
 
-import static java.nio.charset.StandardCharsets.US_ASCII;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UncheckedIOException;
-import java.net.Socket;
-import java.util.Map;
-import java.util.StringJoiner;
+import ch.epfl.javass.bonus.ChatSticker;
+import ch.epfl.javass.bonus.Soundlines;
+import ch.epfl.javass.bonus.StickerBean;
+import ch.epfl.javass.jass.*;
+import javafx.collections.MapChangeListener;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.TargetDataLine;
+import java.io.*;
+import java.net.Socket;
+import java.util.Map;
+import java.util.StringJoiner;
 
-import ch.epfl.javass.bonus.ChatSticker;
-import ch.epfl.javass.bonus.Soundlines;
-import ch.epfl.javass.bonus.StickerBean;
-import ch.epfl.javass.jass.Card;
-import ch.epfl.javass.jass.CardSet;
-import ch.epfl.javass.jass.Player;
-import ch.epfl.javass.jass.PlayerId;
-import ch.epfl.javass.jass.Score;
-import ch.epfl.javass.jass.TeamId;
-import ch.epfl.javass.jass.Trick;
-import ch.epfl.javass.jass.TurnState;
-import javafx.collections.MapChangeListener;
+import static java.nio.charset.StandardCharsets.US_ASCII;
 
 public final class RemotePlayerClient implements Player, AutoCloseable {
-    
+
     private InputStream inputVoice;
     private OutputStream outputVoice;
     private Socket sVoice;
@@ -61,7 +44,7 @@ public final class RemotePlayerClient implements Player, AutoCloseable {
                         e.printStackTrace();
                     }
                 });
-                while(!sChat.isClosed()) {
+                while (!sChat.isClosed()) {
                     String result;
                     if ((result = rChat.readLine()) != null) {
                         System.out.println(result);
@@ -161,13 +144,13 @@ public final class RemotePlayerClient implements Player, AutoCloseable {
         }
         return null;
     }
+
     @Override
     public boolean doYouWantRevenge() {
         send(JassCommand.RVNG);
         try {
-            return StringSerializer.deserializeInt(r.readLine())==1;
-        }
-        catch(IOException e) {
+            return StringSerializer.deserializeInt(r.readLine()) == 1;
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return false;
@@ -210,7 +193,7 @@ public final class RemotePlayerClient implements Player, AutoCloseable {
         System.out.println("Getting info from client");
 
         StickerBean.booleanProperty().addListener((o, oV, nV) -> {
-            if(nV != oV || nV.booleanValue() == true) {
+            if (nV != oV || nV.booleanValue() == true) {
                 Thread listen = new Thread() {
                     @Override
                     public void run() {
@@ -222,7 +205,9 @@ public final class RemotePlayerClient implements Player, AutoCloseable {
                                 outputVoice.flush();
                             }
                             join();
-                        } catch (Exception e) { e.printStackTrace(); }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 };
                 listen.setDaemon(true);
@@ -244,8 +229,12 @@ public final class RemotePlayerClient implements Player, AutoCloseable {
                     }
                     sourceDataLine.drain();
                     sourceDataLine.close();
-                } catch (IOException e) { e.printStackTrace(); }
-            };
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            ;
         };
         playback.setDaemon(true);
         playback.start();

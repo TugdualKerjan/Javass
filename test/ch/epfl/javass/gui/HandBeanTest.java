@@ -17,19 +17,19 @@ public final class HandBeanTest {
         hb.handProperty().addListener(listener);
 
         CardSet h = CardSet.EMPTY
-          .add(Card.of(Color.SPADE, Rank.SIX))
-          .add(Card.of(Color.SPADE, Rank.NINE))
-          .add(Card.of(Color.SPADE, Rank.JACK))
-          .add(Card.of(Color.HEART, Rank.SEVEN))
-          .add(Card.of(Color.HEART, Rank.ACE))
-          .add(Card.of(Color.DIAMOND, Rank.KING))
-          .add(Card.of(Color.DIAMOND, Rank.ACE))
-          .add(Card.of(Color.CLUB, Rank.TEN))
-          .add(Card.of(Color.CLUB, Rank.QUEEN));
+                .add(Card.of(Color.SPADE, Rank.SIX))
+                .add(Card.of(Color.SPADE, Rank.NINE))
+                .add(Card.of(Color.SPADE, Rank.JACK))
+                .add(Card.of(Color.HEART, Rank.SEVEN))
+                .add(Card.of(Color.HEART, Rank.ACE))
+                .add(Card.of(Color.DIAMOND, Rank.KING))
+                .add(Card.of(Color.DIAMOND, Rank.ACE))
+                .add(Card.of(Color.CLUB, Rank.TEN))
+                .add(Card.of(Color.CLUB, Rank.QUEEN));
         hb.setHand(h);
-        while (! h.isEmpty()) {
-          h = h.remove(h.get(0));
-          hb.setHand(h);
+        while (!h.isEmpty()) {
+            h = h.remove(h.get(0));
+            hb.setHand(h);
         }
     }
 }

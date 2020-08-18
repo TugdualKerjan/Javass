@@ -1,5 +1,3 @@
-
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,11 +8,12 @@ import ch.epfl.javass.jass.PlayerId;
 import ch.epfl.javass.jass.PrintingPlayer;
 import ch.epfl.javass.jass.RandomPlayer;
 import ch.epfl.javass.net.RemotePlayerClient;
+
 /**
  * This class consists on a main method that will simulate a JassGame
  * At this moment we are using Mcts player and a PrintingPlayer as a random player
  * vs a distant player and another random player
- * 
+ *
  * @author Tugdual Kerjan (297804)
  * @author Marcel Torne (299366)
  */
@@ -38,7 +37,7 @@ public final class RandomJassGame {
                         player = (Player) playerConnect;
                     } catch (Exception e) {
                         e.printStackTrace();
-                    } 
+                    }
                 }
                 players.put(pId, player);
                 playerNames.put(pId, pId.name());

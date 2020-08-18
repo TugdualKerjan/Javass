@@ -26,7 +26,7 @@ public final class TrickBean {
      * public constructor of class
      */
     public TrickBean() {
-        trick = FXCollections.<PlayerId, Card> observableHashMap();
+        trick = FXCollections.<PlayerId, Card>observableHashMap();
         for (PlayerId p : PlayerId.ALL) {
             trick.put(p, null);
         }
@@ -34,7 +34,7 @@ public final class TrickBean {
 
     /**
      * Get the current trump
-     * 
+     *
      * @return trump
      */
     public SimpleObjectProperty<Color> trumpProperty() {
@@ -43,7 +43,7 @@ public final class TrickBean {
 
     /**
      * Set the current trump
-     * 
+     *
      * @param trump
      */
     public void setTrump(Color trump) {
@@ -52,7 +52,7 @@ public final class TrickBean {
 
     /**
      * Get the map of which player has which card
-     * 
+     *
      * @return ObservableMap of players and their played card
      */
     public ObservableMap<PlayerId, Card> trickProperty() {
@@ -61,7 +61,7 @@ public final class TrickBean {
 
     /**
      * Set the trick
-     * 
+     *
      * @param newTrick
      */
     public void setTrick(Trick newTrick) {
@@ -79,7 +79,7 @@ public final class TrickBean {
 
     /**
      * Get the currently winning player of the trick
-     * 
+     *
      * @return winning player
      */
     public SimpleObjectProperty<PlayerId> winningPlayer() {

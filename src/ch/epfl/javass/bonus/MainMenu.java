@@ -1,23 +1,7 @@
 package ch.epfl.javass.bonus;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.ConnectException;
-import java.net.InetAddress;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
 import ch.epfl.javass.gui.GraphicalPlayerAdapter;
-import ch.epfl.javass.jass.JassGame;
-import ch.epfl.javass.jass.MctsPlayer;
-import ch.epfl.javass.jass.PacedPlayer;
-import ch.epfl.javass.jass.Player;
-import ch.epfl.javass.jass.PlayerId;
-import ch.epfl.javass.jass.RandomPlayer;
+import ch.epfl.javass.jass.*;
 import ch.epfl.javass.net.RemotePlayerClient;
 import ch.epfl.javass.net.RemotePlayerServer;
 import javafx.application.Application;
@@ -36,24 +20,28 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class MainMenu extends Application {
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.URL;
+import java.util.*;
 
-    private SimpleBooleanProperty UsernameMenuVisible = new SimpleBooleanProperty(true);
-    private SimpleBooleanProperty GameSelectMenuVisible = new SimpleBooleanProperty(false);
-    private SimpleBooleanProperty IPSelectMenuVisible = new SimpleBooleanProperty(false);
-    private SimpleBooleanProperty waitingToConnect = new SimpleBooleanProperty(false);
-    private Random rng = new Random(System.nanoTime());
-    private TextField playerName = new TextField();
-    private String[] predefinedNames = { "Alain", "Margaret", "Steve", "Ada" };
-    private Map<PlayerId, Player> players;
-    private Map<PlayerId, String> playerNames;
-   
+public class MainMenu extends Application {
 
     private static final String JASS_STYLE = "-fx-font: 300 Optima; -fx-background-color: blue;";
     private static final String TEXT_STYLE = "-fx-text-alignment: center; -fx-font: 30 Optima; -fx-background-color: darkorange; -fx-alignment: center";
     private final static String TRICK_STYLE = "-fx-background-color: whitesmoke; -fx-padding: 5px; -fx-border-width: 3px 0px; -fx-border-style: solid; -fx-border-color: gray; -fx-alignment: center;";
     private static final double PLAYER_WAITING_TIME = 2;
     private static final long END_OF_TRICK_WAITING_TIME = 1000L;
+    private SimpleBooleanProperty UsernameMenuVisible = new SimpleBooleanProperty(true);
+    private SimpleBooleanProperty GameSelectMenuVisible = new SimpleBooleanProperty(false);
+    private SimpleBooleanProperty IPSelectMenuVisible = new SimpleBooleanProperty(false);
+    private SimpleBooleanProperty waitingToConnect = new SimpleBooleanProperty(false);
+    private Random rng = new Random(System.nanoTime());
+    private TextField playerName = new TextField();
+    private String[] predefinedNames = {"Alain", "Margaret", "Steve", "Ada"};
+    private Map<PlayerId, Player> players;
+    private Map<PlayerId, String> playerNames;
 
     public static void main(String[] args) {
         launch(args);
@@ -113,7 +101,7 @@ public class MainMenu extends Application {
 //            }
 //        }
 //    
-    
+
     private GridPane gameSelectMenu() {
         GridPane grid = new GridPane();
 
@@ -172,7 +160,7 @@ public class MainMenu extends Application {
         grid.setStyle(TRICK_STYLE);
 
         List<StringProperty> ipAdresses = new ArrayList<>();
-        for(int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i++) {
             Text IpText = new Text("  IP:  ");
 
             TextField ip = new TextField();
@@ -196,7 +184,7 @@ public class MainMenu extends Application {
         Button ok = new Button(" Start the game ");
         ok.setStyle(TEXT_STYLE);
         ok.setOnAction(e -> {
-            startOnlineHostGame(ipAdresses,0);
+            startOnlineHostGame(ipAdresses, 0);
         });
 
         GridPane box = new GridPane();
@@ -219,14 +207,12 @@ public class MainMenu extends Application {
             URL url_name = new URL("http://bot.whatismyipaddress.com");
             BufferedReader sc = new BufferedReader(new InputStreamReader(url_name.openStream()));
             systemipaddress = sc.readLine().trim();
-            if (!(systemipaddress.length() > 0)) 
-            {
+            if (!(systemipaddress.length() > 0)) {
                 InetAddress localhost = InetAddress.getLocalHost();
                 System.out.println((localhost.getHostAddress()).trim());
                 systemipaddress = (localhost.getHostAddress()).trim();
             }
-        }    
-        catch (Exception e2) {
+        } catch (Exception e2) {
             systemipaddress = "Cannot Execute Properly";
         }
         IpText = new Text("  IP:  " + systemipaddress);
@@ -260,8 +246,8 @@ public class MainMenu extends Application {
     private Map<PlayerId, Player> createPlayersHard() {
         Map<PlayerId, Player> ps = new EnumMap<>(PlayerId.class);
         ps.put(PlayerId.PLAYER_1, new GraphicalPlayerAdapter());
-        for(PlayerId p:PlayerId.ALL) {
-            if (!p.equals(PlayerId.PLAYER_1)){
+        for (PlayerId p : PlayerId.ALL) {
+            if (!p.equals(PlayerId.PLAYER_1)) {
                 ps.put(p, new PacedPlayer(new MctsPlayer(p, rng.nextLong(), 10_000), PLAYER_WAITING_TIME));
             }
         }
@@ -271,24 +257,24 @@ public class MainMenu extends Application {
     private Map<PlayerId, Player> createPlayersEasy() {
         Map<PlayerId, Player> ps = new EnumMap<>(PlayerId.class);
         ps.put(PlayerId.PLAYER_1, new GraphicalPlayerAdapter());
-        ps.put(PlayerId.PLAYER_2, new PacedPlayer(new RandomPlayer(rng.nextLong()),PLAYER_WAITING_TIME));
+        ps.put(PlayerId.PLAYER_2, new PacedPlayer(new RandomPlayer(rng.nextLong()), PLAYER_WAITING_TIME));
         ps.put(PlayerId.PLAYER_3, new PacedPlayer(new MctsPlayer(PlayerId.PLAYER_3, rng.nextLong(), 10_000), PLAYER_WAITING_TIME));
-        ps.put(PlayerId.PLAYER_4, new PacedPlayer(new RandomPlayer(rng.nextLong()),PLAYER_WAITING_TIME));
+        ps.put(PlayerId.PLAYER_4, new PacedPlayer(new RandomPlayer(rng.nextLong()), PLAYER_WAITING_TIME));
 
         return ps;
     }
 
-    public void startOnlineHostGame(List<StringProperty> onlinePlayerIPs,int compt) {
+    public void startOnlineHostGame(List<StringProperty> onlinePlayerIPs, int compt) {
         System.out.println("starting online host game");
         players = new EnumMap<>(PlayerId.class);
         playerNames = new EnumMap<>(PlayerId.class);
-        
+
         players.put(PlayerId.PLAYER_1, new GraphicalPlayerAdapter());
         playerNames.put(PlayerId.PLAYER_1, playerName.getText());
-        
-        for(int i = 1; i <= onlinePlayerIPs.size(); i++) {
-            if(onlinePlayerIPs.get(i - 1).get() != "" && onlinePlayerIPs.get(i - 1).get() != null && !onlinePlayerIPs.get(i - 1).get().isEmpty()) {
-                String ip = onlinePlayerIPs.get(i-1).get();
+
+        for (int i = 1; i <= onlinePlayerIPs.size(); i++) {
+            if (onlinePlayerIPs.get(i - 1).get() != "" && onlinePlayerIPs.get(i - 1).get() != null && !onlinePlayerIPs.get(i - 1).get().isEmpty()) {
+                String ip = onlinePlayerIPs.get(i - 1).get();
                 System.out.println("Player ips : " + ip);
 //                try {
 //                    Thread.sleep(10000);
@@ -298,11 +284,11 @@ public class MainMenu extends Application {
 //                }
                 RemotePlayerClient p;
                 try {
-                p = new RemotePlayerClient(ip);
-                }catch(Exception e) {
-                    if(compt<10) 
-                        startOnlineHostGame(onlinePlayerIPs,++compt);
-                     return;
+                    p = new RemotePlayerClient(ip);
+                } catch (Exception e) {
+                    if (compt < 10)
+                        startOnlineHostGame(onlinePlayerIPs, ++compt);
+                    return;
 //                    p= new RemotePlayerClient(ip);
                 }
                 players.put(PlayerId.ALL.get(i), p);
@@ -347,8 +333,7 @@ public class MainMenu extends Application {
 
 //            doWeNeedARevenge();
         }).start();
-        
-        
-        
+
+
     }
 }

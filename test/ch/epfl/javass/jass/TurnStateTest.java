@@ -62,8 +62,8 @@ public class TurnStateTest {
     @Test
     void initialWorks() {
         SplittableRandom rng = newRandom();
-        for (Color trump: Color.ALL) {
-            for (PlayerId firstPlayer: PlayerId.ALL) {
+        for (Color trump : Color.ALL) {
+            for (PlayerId firstPlayer : PlayerId.ALL) {
                 Score score = nextScore(rng);
                 TurnState s = TurnState.initial(trump, score, firstPlayer);
                 assertEquals(trump, s.trick().trump());
@@ -125,7 +125,7 @@ public class TurnStateTest {
     @Test
     void nextPlayerWorks() {
         SplittableRandom rng = newRandom();
-        for (PlayerId firstPlayer: PlayerId.ALL) {
+        for (PlayerId firstPlayer : PlayerId.ALL) {
             Color trump = nextColor(rng);
             Score score = nextScore(rng);
             CardSet cardsToPlay = nextCardSet(rng, 4);

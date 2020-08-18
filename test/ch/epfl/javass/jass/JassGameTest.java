@@ -21,7 +21,7 @@ import ch.epfl.javass.jass.Card.Rank;
 public class JassGameTest {
     private static Map<PlayerId, TestPlayer> testPlayers(List<PlayerId> playingOrderLog) {
         Map<PlayerId, TestPlayer> ps = new EnumMap<>(PlayerId.class);
-        for (PlayerId pId: PlayerId.ALL)
+        for (PlayerId pId : PlayerId.ALL)
             ps.put(pId, new TestPlayer(pId, playingOrderLog));
         return ps;
     }
@@ -38,7 +38,7 @@ public class JassGameTest {
 
     private static Map<PlayerId, String> testPlayerNames() {
         Map<PlayerId, String> ps = new EnumMap<>(PlayerId.class);
-        for (PlayerId pId: PlayerId.ALL)
+        for (PlayerId pId : PlayerId.ALL)
             ps.put(pId, pId.toString());
         return ps;
     }
@@ -54,7 +54,7 @@ public class JassGameTest {
                 g.advanceToEndOfNextTrick();
 
                 CardSet cards = CardSet.ALL_CARDS;
-                for (TestPlayer p: ps.values()) {
+                for (TestPlayer p : ps.values()) {
                     assertEquals(9, cards.intersection(p.updateHandInitialHand).size());
                     cards = cards.difference(p.updateHandInitialHand);
                 }
@@ -70,7 +70,7 @@ public class JassGameTest {
             Map<PlayerId, String> ns = testPlayerNames();
             JassGame g = new JassGame(0, toNormalPlayers(ps), ns);
             g.advanceToEndOfNextTrick();
-            for (TestPlayer p: ps.values()) {
+            for (TestPlayer p : ps.values()) {
                 assertEquals(1, p.setPlayersCallCount);
                 assertEquals(p.ownId, p.setPlayersOwnId);
                 assertEquals(ns, p.setPlayersPlayerNames);
@@ -133,7 +133,7 @@ public class JassGameTest {
                     for (int t = 0; t < 9; ++t) {
                         g.advanceToEndOfNextTrick();
                         int expectedHandSize = 8 - t;
-                        for (TestPlayer p: ps.values())
+                        for (TestPlayer p : ps.values())
                             assertEquals(expectedHandSize, p.updateHandNewHand.size());
                     }
                 }
@@ -157,7 +157,7 @@ public class JassGameTest {
                     }
                     int newSetTrumpCallCount = 0;
                     Color player1Trump = ps.get(PlayerId.PLAYER_1).setTrumpTrump;
-                    for (TestPlayer p: ps.values()) {
+                    for (TestPlayer p : ps.values()) {
                         assertTrue(p.setTrumpCallCount > setTrumpCallCount);
                         newSetTrumpCallCount = Math.max(newSetTrumpCallCount, p.setTrumpCallCount);
                         assertEquals(player1Trump, p.setTrumpTrump);
@@ -179,7 +179,7 @@ public class JassGameTest {
                 for (int t = 0; t < 9; ++t) {
                     int expectedCallsToUpdateTrick = 5 * t;
                     Trick player1Trick = ps.get(PlayerId.PLAYER_1).updateTrickNewTrick;
-                    for (TestPlayer p: ps.values()) {
+                    for (TestPlayer p : ps.values()) {
                         assertTrue(p.updateTrickCallCount >= expectedCallsToUpdateTrick);
                         assertEquals(player1Trick, p.updateTrickNewTrick);
                     }
@@ -201,7 +201,7 @@ public class JassGameTest {
                 for (int t = 0; t < 9; ++t) {
                     int expectedCallsToUpdateScore = 1 * t;
                     Score player1Score = ps.get(PlayerId.PLAYER_1).updateScoreScore;
-                    for (TestPlayer p: ps.values()) {
+                    for (TestPlayer p : ps.values()) {
                         assertTrue(p.updateScoreCallCount >= expectedCallsToUpdateScore);
                         assertEquals(player1Score, p.updateScoreScore);
                     }
@@ -226,7 +226,7 @@ public class JassGameTest {
 
                 assertTrue(g.isGameOver());
                 TeamId player1WinningTeam = ps.get(PlayerId.PLAYER_1).setWinningTeamWinningTeam;
-                for (TestPlayer p: ps.values()) {
+                for (TestPlayer p : ps.values()) {
                     assertTrue(p.setWinningTeamCallCount >= 1);
                     assertEquals(player1WinningTeam, p.setWinningTeamWinningTeam);
                 }
@@ -242,7 +242,7 @@ public class JassGameTest {
                 Map<PlayerId, TestPlayer> ps = testPlayers();
                 Map<PlayerId, String> ns = testPlayerNames();
                 JassGame g = new JassGame(rng.nextLong(), toNormalPlayers(ps), ns);
-                while (! g.isGameOver()) {
+                while (!g.isGameOver()) {
                     g.advanceToEndOfNextTrick();
                 }
 

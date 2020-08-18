@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 public class TeamIdTest {
     private static TeamId[] getAllTeamIds() {
-        return new TeamId[] {
+        return new TeamId[]{
                 TeamId.TEAM_1,
                 TeamId.TEAM_2,
         };

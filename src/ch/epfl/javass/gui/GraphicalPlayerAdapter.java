@@ -1,26 +1,27 @@
 package ch.epfl.javass.gui;
 
 import ch.epfl.javass.jass.*;
-import java.util.concurrent.*;
-import java.util.*;
-import ch.epfl.javass.jass.Card.*;
+import ch.epfl.javass.jass.Card.Color;
 import javafx.application.Platform;
+
+import java.util.Map;
+import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  * Class that represents a player and will be as its name says the adapter
  * between the Jass Game and the Graphical player graphical interface.
- * 
+ *
  * @author Tugdual Kerjan (297804)
  * @author Marcel Torne (299366)
  */
 public final class GraphicalPlayerAdapter implements Player {
+    //    private boolean iWantRevenge;
+    private final static int SIZE_QUEUE = 1;
     private final ScoreBean scoreBean;
     private final TrickBean trickBean;
     private final HandBean handBean;
-    private GraphicalPlayer graphicalPlayer;
     private final ArrayBlockingQueue<Card> commQueue;
-//    private boolean iWantRevenge;
-    private final static int SIZE_QUEUE = 1;
+    private GraphicalPlayer graphicalPlayer;
 
     /**
      * public constructor of the Graphical player adapter takes no arguments
@@ -37,7 +38,7 @@ public final class GraphicalPlayerAdapter implements Player {
      * method that will inform of the state and the current hand to the
      * graphical player and after it will read and return with card he wants to
      * play.
-     * 
+     *
      * @see ch.epfl.javass.jass.Player#cardToPlay(ch.epfl.javass.jass.TurnState,
      * ch.epfl.javass.jass.CardSet)
      */
@@ -65,7 +66,7 @@ public final class GraphicalPlayerAdapter implements Player {
      * method that will create the graphical player and display it on the
      * computer. At the same time as informing the graphical player of the names
      * of all the players.
-     * 
+     *
      * @see ch.epfl.javass.jass.Player#setPlayers(ch.epfl.javass.jass.PlayerId,
      * java.util.Map)
      */
@@ -80,7 +81,7 @@ public final class GraphicalPlayerAdapter implements Player {
 
     /*
      * will update the state of its current hand
-     * 
+     *
      * @see ch.epfl.javass.jass.Player#updateHand(ch.epfl.javass.jass.CardSet)
      */
     @Override
@@ -93,7 +94,7 @@ public final class GraphicalPlayerAdapter implements Player {
 
     /*
      * will update the new trum
-     * 
+     *
      * @see ch.epfl.javass.jass.Player#setTrump(ch.epfl.javass.jass.Card.Color)
      */
     @Override
@@ -106,7 +107,7 @@ public final class GraphicalPlayerAdapter implements Player {
     /*
      * will update the trick and set playable card to empty so as the graphical
      * player has to wait to play a new card
-     * 
+     *
      * @see ch.epfl.javass.jass.Player#updateTrick(ch.epfl.javass.jass.Trick)
      */
     @Override
@@ -118,7 +119,7 @@ public final class GraphicalPlayerAdapter implements Player {
 
     /*
      * will update the score for both teams
-     * 
+     *
      * @see ch.epfl.javass.jass.Player#updateScore(ch.epfl.javass.jass.Score)
      */
     @Override
@@ -133,7 +134,7 @@ public final class GraphicalPlayerAdapter implements Player {
     /*
      * will set the winning team and it will serve to know that the game is
      * finished
-     * 
+     *
      * @see
      * ch.epfl.javass.jass.Player#setWinningTeam(ch.epfl.javass.jass.TeamId)
      */
@@ -147,9 +148,8 @@ public final class GraphicalPlayerAdapter implements Player {
 
     /**
      * will update the score with the given score to the corresponding team
-     * 
-     * @param score
-     *            (new score)
+     *
+     * @param score (new score)
      * @param team
      */
     private void updateScoreTeam(Score score, TeamId team) {
@@ -158,12 +158,12 @@ public final class GraphicalPlayerAdapter implements Player {
         scoreBean.setTotalPoints(team, score.totalPoints(team));
         scoreBean.setTurnPoints(team, score.turnPoints(team));
     }
-    
-    
+
+
     @Override
     public boolean doYouWantRevenge() {
         return graphicalPlayer.wantRevenge();
     }
-    
-   
+
+
 }

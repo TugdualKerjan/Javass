@@ -12,7 +12,7 @@ import javafx.stage.Stage;
  * computer you have to be connected to the same wifi as the host and you should
  * also give him your ip address that can be easily find by typing: whats my ip
  * adress? on an internet browser
- * 
+ *
  * @author Tugdual Kerjan (297804)
  * @author Marcel Torne (299366)
  */
@@ -20,7 +20,7 @@ public final class RemoteMain extends Application {
     /**
      * method main that will launch the distant player here no specific
      * arguments are needed
-     * 
+     *
      * @param args
      */
     public static void main(String[] args) {

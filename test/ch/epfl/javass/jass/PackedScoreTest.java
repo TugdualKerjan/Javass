@@ -100,7 +100,7 @@ public class PackedScoreTest {
             for (int trick = 0; trick < 9; ++trick) {
                 int trickPoints = trick == 8
                         ? remainingPoints
-                                : rng.nextInt(Math.min(remainingPoints, 57));
+                        : rng.nextInt(Math.min(remainingPoints, 57));
                 pkScore = PackedScore.withAdditionalTrick(pkScore, winningTeam, trickPoints);
                 remainingPoints -= trickPoints;
             }
@@ -141,7 +141,7 @@ public class PackedScoreTest {
                     TeamId winningTeam = TeamId.ALL.get(rng.nextInt(TeamId.COUNT));
                     int trickPoints = trick == 8
                             ? remainingPoints
-                                    : rng.nextInt(Math.min(remainingPoints, 57));
+                            : rng.nextInt(Math.min(remainingPoints, 57));
                     pkScore = PackedScore.withAdditionalTrick(pkScore, winningTeam, trickPoints);
                     assertTrue(PackedScore.isValid(pkScore));
                     remainingPoints -= trickPoints;

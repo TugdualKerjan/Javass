@@ -19,7 +19,7 @@ public enum PlayerId {
     /**
      * Returns the team in which the player is Player 1 and 3 are in team 1 while
      * player 2 and 4 are in team2
-     * 
+     *
      * @return the team of the player
      */
     public TeamId team() {

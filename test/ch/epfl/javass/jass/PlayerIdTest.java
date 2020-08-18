@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 public class PlayerIdTest {
     private static PlayerId[] getAllPlayerIds() {
-        return new PlayerId[] {
+        return new PlayerId[]{
                 PlayerId.PLAYER_1,
                 PlayerId.PLAYER_2,
                 PlayerId.PLAYER_3,
@@ -42,7 +42,7 @@ public class PlayerIdTest {
 
     @Test
     void playerIdTeamIsCorrect() {
-        TeamId[] expectedTeams = new TeamId[] {
+        TeamId[] expectedTeams = new TeamId[]{
                 TeamId.TEAM_1, TeamId.TEAM_2, TeamId.TEAM_1, TeamId.TEAM_2
         };
         PlayerId[] playerIds = getAllPlayerIds();

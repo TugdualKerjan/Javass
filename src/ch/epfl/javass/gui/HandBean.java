@@ -33,7 +33,7 @@ public final class HandBean {
 
     /**
      * Get the hand
-     * 
+     *
      * @return ObservableList of cards the player currently has
      */
     public ObservableList<Card> handProperty() {
@@ -42,9 +42,8 @@ public final class HandBean {
 
     /**
      * Set the hand of the player
-     * 
-     * @param newHand
-     *            cardSet to set
+     *
+     * @param newHand cardSet to set
      */
     public void setHand(CardSet newHand) {
         // If new hand then replace all
@@ -65,7 +64,7 @@ public final class HandBean {
 
     /**
      * Get the playable cards
-     * 
+     *
      * @return ObservableSet of cards the player can currently play
      */
     public ObservableSet<Card> playableCards() {
@@ -74,9 +73,8 @@ public final class HandBean {
 
     /**
      * define what cards the player can currently play
-     * 
-     * @param newPlayableCards
-     *            cards the player can play
+     *
+     * @param newPlayableCards cards the player can play
      */
     public void setPlayableCards(CardSet newPlayableCards) {
         playableCards.clear();

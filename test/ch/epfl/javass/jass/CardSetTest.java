@@ -22,8 +22,8 @@ import ch.epfl.javass.jass.Card.Rank;
 public final class CardSetTest {
     private List<Card> listOfAllCards() {
         List<Card> cs = new ArrayList<>();
-        for (Color c: Color.ALL) {
-            for (Rank r: Rank.ALL) {
+        for (Color c : Color.ALL) {
+            for (Rank r : Rank.ALL) {
                 cs.add(Card.of(c, r));
             }
         }
@@ -56,7 +56,7 @@ public final class CardSetTest {
 
     @Test
     void ofPackedWorksWithAllSingletons() {
-        for (long s: PackedCardSetTest.ALL_SINGLETONS) {
+        for (long s : PackedCardSetTest.ALL_SINGLETONS) {
             CardSet cs = CardSet.ofPacked(s);
             assertEquals(1, cs.size());
         }
@@ -68,7 +68,7 @@ public final class CardSetTest {
             for (int r = 9; r < 16; ++r) {
                 long invalidS = (1L << r) << (c << 4);
                 assertThrows(IllegalArgumentException.class, () -> {
-                   CardSet.ofPacked(invalidS);
+                    CardSet.ofPacked(invalidS);
                 });
             }
         }
@@ -122,7 +122,8 @@ public final class CardSetTest {
     }
 
     @Test
-    @Disabled  // This was unfortunately not specified.
+    @Disabled
+        // This was unfortunately not specified.
     void getFailsWithInvalidIndex() {
         SplittableRandom rng = newRandom();
         List<Card> cs = new ArrayList<>(listOfAllCards());
@@ -142,7 +143,7 @@ public final class CardSetTest {
     void addCanBuildFullSet() {
         CardSet s0 = CardSet.EMPTY;
         CardSet s = s0;
-        for (int c: PackedCardSetTest.ALL_PACKED_CARDS) {
+        for (int c : PackedCardSetTest.ALL_PACKED_CARDS) {
             s = s.add(Card.ofPacked(c));
         }
         assertEquals(CardSet.EMPTY, s0);
@@ -153,7 +154,7 @@ public final class CardSetTest {
     void removeCanEmptyFullSet() {
         CardSet s0 = CardSet.ALL_CARDS;
         CardSet s = s0;
-        for (int c: PackedCardSetTest.ALL_PACKED_CARDS) {
+        for (int c : PackedCardSetTest.ALL_PACKED_CARDS) {
             s = s.remove(Card.ofPacked(c));
         }
         assertEquals(CardSet.ALL_CARDS, s0);
@@ -162,7 +163,7 @@ public final class CardSetTest {
 
     @Test
     void containsWorksOnEmptyAndFullSets() {
-        for (int pkCard: PackedCardSetTest.ALL_PACKED_CARDS) {
+        for (int pkCard : PackedCardSetTest.ALL_PACKED_CARDS) {
             Card card = Card.ofPacked(pkCard);
             assertFalse(CardSet.EMPTY.contains(card));
             assertTrue(CardSet.ALL_CARDS.contains(card));
@@ -174,10 +175,10 @@ public final class CardSetTest {
         SplittableRandom rng = newRandom();
         for (int i = 0; i < RANDOM_ITERATIONS; ++i) {
             CardSet s = nextSet(rng);
-            for (int pkCard: PackedCardSetTest.ALL_PACKED_CARDS) {
+            for (int pkCard : PackedCardSetTest.ALL_PACKED_CARDS) {
                 Card card = Card.ofPacked(pkCard);
                 boolean inS = s.contains(card), inSc = s.complement().contains(card);
-                assertTrue((inS && ! inSc) || (! inS && inSc));
+                assertTrue((inS && !inSc) || (!inS && inSc));
             }
         }
     }
@@ -186,7 +187,7 @@ public final class CardSetTest {
     void unionWorks() {
         CardSet s0 = CardSet.EMPTY;
         CardSet s = s0;
-        for (long pkSingleton: PackedCardSetTest.ALL_SINGLETONS) {
+        for (long pkSingleton : PackedCardSetTest.ALL_SINGLETONS) {
             s = s.union(CardSet.ofPacked(pkSingleton));
         }
         assertEquals(CardSet.EMPTY, s0);
@@ -196,7 +197,7 @@ public final class CardSetTest {
     @Test
     void intersectionWorks() {
         CardSet s0 = CardSet.ALL_CARDS;
-        for (long pkSingleton: PackedCardSetTest.ALL_SINGLETONS) {
+        for (long pkSingleton : PackedCardSetTest.ALL_SINGLETONS) {
             CardSet singleton = CardSet.ofPacked(pkSingleton);
             assertEquals(singleton, s0.intersection(singleton));
         }
@@ -208,7 +209,7 @@ public final class CardSetTest {
         CardSet s0 = CardSet.ALL_CARDS;
         CardSet s = s0;
         int expectedSize = 36;
-        for (long pkSingleton: PackedCardSetTest.ALL_SINGLETONS) {
+        for (long pkSingleton : PackedCardSetTest.ALL_SINGLETONS) {
             s = s.difference(CardSet.ofPacked(pkSingleton));
             expectedSize -= 1;
             assertEquals(expectedSize, s.size());
@@ -219,7 +220,7 @@ public final class CardSetTest {
 
     @Test
     void subsetOfColorWorks() {
-        for (Color c: Color.ALL) {
+        for (Color c : Color.ALL) {
             CardSet s0 = CardSet.ALL_CARDS;
             CardSet subset = s0.subsetOfColor(c);
             assertEquals(9, subset.size());

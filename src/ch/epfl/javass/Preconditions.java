@@ -14,9 +14,8 @@ public final class Preconditions {
 
     /**
      * Checks if the boolean is false, and throws and exception if so
-     * 
-     * @param b
-     *            if false throws IllegalArgumentException
+     *
+     * @param b if false throws IllegalArgumentException
      */
     public static void checkArgument(boolean b) {
         if (b == false)
@@ -25,11 +24,9 @@ public final class Preconditions {
 
     /**
      * Checks if index is correctly in the range of 0 to size
-     * 
-     * @param index
-     *            at which we look
-     * @param size
-     *            size of the total selectable area
+     *
+     * @param index at which we look
+     * @param size  size of the total selectable area
      * @return true if index is positive and less than size
      */
     public static int checkIndex(int index, int size) {

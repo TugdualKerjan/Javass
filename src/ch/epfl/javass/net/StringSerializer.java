@@ -1,8 +1,8 @@
 package ch.epfl.javass.net;
 
 import java.nio.charset.StandardCharsets;
-import java.util.StringJoiner;
 import java.util.Base64;
+import java.util.StringJoiner;
 
 /**
  * This class StringSerializer will be used by the RemotePlayerClient and
@@ -10,7 +10,7 @@ import java.util.Base64;
  * streams without having any problems of encoding. It provides also some extra
  * methods to work more easily with arrays of String. So its a class that will
  * only be used for its static methods.
- * 
+ *
  * @author Tugdual Kerjan (297804)
  * @author Marcel Torne (299366)
  */
@@ -23,9 +23,8 @@ public final class StringSerializer {
 
     /**
      * Go from int to serialized string
-     * 
-     * @param int
-     *            to serialize
+     *
+     * @param int to serialize
      * @return serialized int
      */
     public static String serializeInt(int number) {
@@ -34,9 +33,8 @@ public final class StringSerializer {
 
     /**
      * Go from long to serialized string
-     * 
-     * @param long
-     *            to serialize
+     *
+     * @param long to serialize
      * @return serialized long
      */
     public static String serializeLong(long number) {
@@ -45,9 +43,8 @@ public final class StringSerializer {
 
     /**
      * Go from serialized string to int
-     * 
-     * @param int
-     *            to deserialize
+     *
+     * @param int to deserialize
      * @return deserialized int
      */
     public static int deserializeInt(String number) {
@@ -56,9 +53,8 @@ public final class StringSerializer {
 
     /**
      * Go from serialized string to long
-     * 
-     * @param long
-     *            to deserialize
+     *
+     * @param long to deserialize
      * @return deserialized long
      */
     public static long deserializeLong(String number) {
@@ -67,9 +63,8 @@ public final class StringSerializer {
 
     /**
      * Go from string to serialized string
-     * 
-     * @param string
-     *            to serialize
+     *
+     * @param string to serialize
      * @return serialized string
      */
     public static String serializeString(String characters) {
@@ -79,9 +74,8 @@ public final class StringSerializer {
 
     /**
      * Go from serialized string to string
-     * 
-     * @param string
-     *            to deserialize
+     *
+     * @param string to deserialize
      * @return deserialized string
      */
     public static String deserializeString(String characters) {
@@ -90,11 +84,9 @@ public final class StringSerializer {
 
     /**
      * Combine multiple strings into one with a defined seperator
-     * 
-     * @param seperator
-     *            char to seperate
-     * @param strings
-     *            to combine
+     *
+     * @param seperator char to seperate
+     * @param strings   to combine
      * @return string of combined strings
      */
     public static String combine(char seperator, String... strings) {
@@ -108,9 +100,8 @@ public final class StringSerializer {
 
     /**
      * Split the string based on a char seperator
-     * 
-     * @param string
-     *            to split
+     *
+     * @param string    to split
      * @param seperator
      * @return array of each split segment
      */

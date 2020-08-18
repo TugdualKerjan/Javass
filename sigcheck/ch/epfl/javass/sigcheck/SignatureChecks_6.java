@@ -5,7 +5,8 @@ import ch.epfl.javass.jass.Player;
 import ch.epfl.javass.jass.PlayerId;
 
 public final class SignatureChecks_6 {
-    private SignatureChecks_6() {}
+    private SignatureChecks_6() {
+    }
 
     @SuppressWarnings("unused")
     void checkMctsPlayer() {

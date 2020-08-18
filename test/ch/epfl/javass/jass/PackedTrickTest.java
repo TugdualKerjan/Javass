@@ -32,30 +32,6 @@ import ch.epfl.javass.jass.Card.Color;
 import ch.epfl.javass.jass.Card.Rank;
 
 public class PackedTrickTest {
-    // Short syntax to create cards, DO NOT DO THIS IN YOUR PROGRAM!!!
-    private static int c(Color color, Rank rank) {
-        return PackedCard.pack(color, rank);
-    }
-
-    private static long cardSet(int... pkCards) {
-        long pkCardSet = PackedCardSet.EMPTY;
-        for (int pkCard: pkCards)
-            pkCardSet = PackedCardSet.add(pkCardSet, pkCard);
-        return pkCardSet;
-    }
-
-    private static int trick(int index, Color trump, PlayerId firstPlayer, int... pkCards) {
-        int pkTrick = PackedTrick.firstEmpty(trump, firstPlayer);
-        for (int pkCard: pkCards)
-            pkTrick = PackedTrick.withAddedCard(pkTrick, pkCard);
-        pkTrick = (pkTrick & ~(0b1111 << 24)) | (index << 24);
-        return pkTrick;
-    }
-
-    private static int indexForHand(long pkHand) {
-        return 9 - PackedCardSet.size(pkHand);
-    }
-
     private static final List<Long> ALL_SINGLETONS =
             Collections.unmodifiableList(
                     Arrays.asList(
@@ -96,11 +72,35 @@ public class PackedTrickTest {
                             0x0080000000000000L,
                             0x0100000000000000L));
 
+    // Short syntax to create cards, DO NOT DO THIS IN YOUR PROGRAM!!!
+    private static int c(Color color, Rank rank) {
+        return PackedCard.pack(color, rank);
+    }
+
+    private static long cardSet(int... pkCards) {
+        long pkCardSet = PackedCardSet.EMPTY;
+        for (int pkCard : pkCards)
+            pkCardSet = PackedCardSet.add(pkCardSet, pkCard);
+        return pkCardSet;
+    }
+
+    private static int trick(int index, Color trump, PlayerId firstPlayer, int... pkCards) {
+        int pkTrick = PackedTrick.firstEmpty(trump, firstPlayer);
+        for (int pkCard : pkCards)
+            pkTrick = PackedTrick.withAddedCard(pkTrick, pkCard);
+        pkTrick = (pkTrick & ~(0b1111 << 24)) | (index << 24);
+        return pkTrick;
+    }
+
+    private static int indexForHand(long pkHand) {
+        return 9 - PackedCardSet.size(pkHand);
+    }
+
     private static long nextCardSet(SplittableRandom rng, int size) {
         List<Long> cards = new ArrayList<>(ALL_SINGLETONS);
         Collections.shuffle(cards, new Random(rng.nextLong()));
         long s = 0;
-        for (long l: cards.subList(0, size))
+        for (long l : cards.subList(0, size))
             s |= l;
         assert Long.bitCount(s) == size;
         return s;
@@ -141,26 +141,26 @@ public class PackedTrickTest {
 
     @Test
     void isValidWorksWithInvalidMixOfValidAndInvalidCards() {
-        int[][] invalidCardPos = new int[][] {
-            { 0 },
-            { 1 },
-            { 2 },
-            { 0, 1 },
-            { 0, 2 },
-            { 0, 3 },
-            { 1, 2 },
-            { 1, 3 },
-            { 0, 1, 2 },
-            { 0, 1, 3 },
-            { 0, 2, 3 },
+        int[][] invalidCardPos = new int[][]{
+                {0},
+                {1},
+                {2},
+                {0, 1},
+                {0, 2},
+                {0, 3},
+                {1, 2},
+                {1, 3},
+                {0, 1, 2},
+                {0, 1, 3},
+                {0, 2, 3},
         };
 
         SplittableRandom rng = newRandom();
-        for (int[] invalidCards: invalidCardPos) {
+        for (int[] invalidCards : invalidCardPos) {
             int pkTrick = 0;
             for (int i = 0; i < 4; ++i)
                 pkTrick = (pkTrick << 6) | nextPackedCard(rng);
-            for (int i: invalidCards)
+            for (int i : invalidCards)
                 pkTrick |= PackedCard.INVALID << (i * 6);
             assertFalse(PackedTrick.isValid(pkTrick));
         }
@@ -168,8 +168,8 @@ public class PackedTrickTest {
 
     @Test
     void firstEmptyWorks() {
-        for (Color trump: Color.ALL) {
-            for (PlayerId firstPlayer: PlayerId.ALL) {
+        for (Color trump : Color.ALL) {
+            for (PlayerId firstPlayer : PlayerId.ALL) {
                 int pkTrick = PackedTrick.firstEmpty(trump, firstPlayer);
                 assertTrue(PackedTrick.isEmpty(pkTrick));
                 assertEquals(0, PackedTrick.index(pkTrick));
@@ -297,8 +297,8 @@ public class PackedTrickTest {
 
     @Test
     void playerWorks() {
-        for (Color trump: Color.ALL) {
-            for (PlayerId firstPlayer: PlayerId.ALL) {
+        for (Color trump : Color.ALL) {
+            for (PlayerId firstPlayer : PlayerId.ALL) {
                 int pkTrick = PackedTrick.firstEmpty(trump, firstPlayer);
                 PlayerId player = firstPlayer;
                 for (int j = 0; j < PlayerId.COUNT; ++j) {
@@ -390,7 +390,7 @@ public class PackedTrickTest {
                         int l = rng.nextInt(hand.size());
                         hand = hand.remove(hand.get(l));
                     }
-                    assertTrue(! PackedCardSet.isEmpty(PackedTrick.playableCards(pkTrick, hand.packed())));
+                    assertTrue(!PackedCardSet.isEmpty(PackedTrick.playableCards(pkTrick, hand.packed())));
 
                     int cardI = rng.nextInt(remainingCards.size());
                     Card card = remainingCards.get(cardI);
@@ -441,8 +441,8 @@ public class PackedTrickTest {
     @Test
     void playableCardsWorksInTrickyCase5() {
         // Any card can be played if one cannot follow, and nobody cut
-        long pkHand = cardSet(c(SPADE, SIX), c(HEART, SIX),  c(SPADE, TEN),  c(CLUB, TEN));
-        int pkTrick = trick(indexForHand(pkHand), SPADE, PLAYER_1, c(DIAMOND, TEN),  c(DIAMOND, SIX));
+        long pkHand = cardSet(c(SPADE, SIX), c(HEART, SIX), c(SPADE, TEN), c(CLUB, TEN));
+        int pkTrick = trick(indexForHand(pkHand), SPADE, PLAYER_1, c(DIAMOND, TEN), c(DIAMOND, SIX));
         assertEquals(pkHand, PackedTrick.playableCards(pkTrick, pkHand));
     }
 
@@ -472,14 +472,14 @@ public class PackedTrickTest {
     @Test
     void winningPlayerWorksInTrickyCase1() {
         // If the 3rd player under-cut, the 2nd one is the winner
-        int pkTrick = trick(0, SPADE, PLAYER_1, c(HEART, TEN),  c(SPADE, NINE), c(SPADE, EIGHT));
+        int pkTrick = trick(0, SPADE, PLAYER_1, c(HEART, TEN), c(SPADE, NINE), c(SPADE, EIGHT));
         assertEquals(PlayerId.PLAYER_2, PackedTrick.winningPlayer(pkTrick));
     }
 
     @Test
     void winningPlayerWorksInTrickyCase2() {
         // If nobody could follow or cut, the 1st player is the winner
-        int pkTrick = trick(0, SPADE, PLAYER_1, c(HEART, SIX),  c(DIAMOND, NINE), c(DIAMOND, EIGHT));
+        int pkTrick = trick(0, SPADE, PLAYER_1, c(HEART, SIX), c(DIAMOND, NINE), c(DIAMOND, EIGHT));
         assertEquals(PlayerId.PLAYER_1, PackedTrick.winningPlayer(pkTrick));
     }
 }

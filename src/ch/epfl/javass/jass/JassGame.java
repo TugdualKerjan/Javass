@@ -1,17 +1,13 @@
 package ch.epfl.javass.jass;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
 import ch.epfl.javass.jass.Card.Color;
 import ch.epfl.javass.jass.Card.Rank;
+
+import java.util.*;
 //Check again this class with the corrections
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 /**
  * @author Tugdual Kerjan (297804)
  * @author Marcel Torne (299366)
@@ -21,13 +17,11 @@ public final class JassGame {
     // Random number generators
     private final Random shuffleRng;
     private final Random trumpRng;
-
+    // Maps of players and their hands
+    private final Map<PlayerId, Player> players;
     // Current trump
     private Color trump;
     private boolean firstTime;
-
-    // Maps of players and their hands
-    private final Map<PlayerId, Player> players;
     private Map<PlayerId, CardSet> handPlayer;
     private Map<PlayerId, String> playerNames;
 
@@ -42,13 +36,13 @@ public final class JassGame {
      * Jass game assigns the variables to the object, creates a first turn,
      * assigns randomly the hands to each player, and updates the state of the
      * game to each player.
-     * 
+     *
      * @param rngSeed
      * @param playerIdtoPlayer
      * @param playerNames
      */
     public JassGame(long rngSeed, Map<PlayerId, Player> playerIdtoPlayer,
-            Map<PlayerId, String> playerNames) {
+                    Map<PlayerId, String> playerNames) {
         // Random number generator
         Random rng = new Random(rngSeed);
         this.shuffleRng = new Random(rng.nextLong());
@@ -66,7 +60,7 @@ public final class JassGame {
         // State
         state = TurnState.ofPackedComponents(0, PackedCardSet.ALL_CARDS, 0);
 
-        firstTime=true;
+        firstTime = true;
         // save immutable copy of playernames and give this one as argument
         // Tell the players about the others
         this.playerNames = Collections
@@ -84,23 +78,23 @@ public final class JassGame {
 
     /**
      * Game over if one of the teams has more than Jass.WINNING_POINTS
-     * 
+     *
      * @return true if a team has more than the required points to win the game
      */
     public boolean isGameOver() {
         boolean gameOver = state.score().totalPoints(TeamId.TEAM_1) >= Jass.WINNING_POINTS
                 || state.score()
                 .totalPoints(TeamId.TEAM_2) >= Jass.WINNING_POINTS;
-                if (firstTime && gameOver) {
-                    firstTime = false;
-                    if (state.score()
-                            .totalPoints(TeamId.TEAM_1) >= Jass.WINNING_POINTS)
-                        setWinningTeam(TeamId.TEAM_1);
-                    else 
-                        setWinningTeam(TeamId.TEAM_2);
-                }
+        if (firstTime && gameOver) {
+            firstTime = false;
+            if (state.score()
+                    .totalPoints(TeamId.TEAM_1) >= Jass.WINNING_POINTS)
+                setWinningTeam(TeamId.TEAM_1);
+            else
+                setWinningTeam(TeamId.TEAM_2);
+        }
 
-                return gameOver;
+        return gameOver;
     }
 
     /**
@@ -111,16 +105,16 @@ public final class JassGame {
      * isn't over: the method make all of the players play.
      */
     public void advanceToEndOfNextTrick() {
-        
+
         if (isGameOver()) {
             return;
         }
-     // If it's full then collect the trick
+        // If it's full then collect the trick
         if (state.trick().isFull())
             state = state.withTrickCollected();
 
-        
-     // If it's terminal then new turn
+
+        // If it's terminal then new turn
         if (state.isTerminal()) {
             nextTurn();
             state = TurnState.initial(trump, state.score().nextTurn(),
@@ -128,24 +122,22 @@ public final class JassGame {
         }
         updateScoreForPlayers();
         // Update the players
-       
+
         updateTrickForPlayers();
         // If it's over then return
-        
 
-        if(isGameOver()) {
+
+        if (isGameOver()) {
             return;
         }
-        
-       
-        
-        
+
+
         // Make the players play
         for (int i = 0; i < PlayerId.COUNT; ++i) {
             PlayerId nextPlayer = state.nextPlayer();
             makePlayerPlay(nextPlayer);
         }
-        
+
     }
 
     private void setWinningTeam(TeamId t) {
@@ -209,9 +201,8 @@ public final class JassGame {
 
     /**
      * Make the player play a card and update
-     * 
-     * @param player
-     *            to player a card
+     *
+     * @param player to player a card
      */
     private void makePlayerPlay(PlayerId player) {
         // Get the card to play

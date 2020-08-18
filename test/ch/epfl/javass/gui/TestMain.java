@@ -16,7 +16,9 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 public final class TestMain extends Application {
-    public static void main(String[] args) { launch(args); }
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -33,9 +35,12 @@ public final class TestMain extends Application {
 
         new Thread(() -> {
             JassGame g = new JassGame(0, ps, ns);
-            while (! g.isGameOver()) {
+            while (!g.isGameOver()) {
                 g.advanceToEndOfNextTrick();
-                try { Thread.sleep(1000); } catch (Exception e) {}
+                try {
+                    Thread.sleep(1000);
+                } catch (Exception e) {
+                }
             }
         }).start();
     }

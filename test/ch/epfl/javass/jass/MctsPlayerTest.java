@@ -16,6 +16,13 @@ public class MctsPlayerTest {
     private static final int ITERATIONS = 10_000;
     private static final Duration TIMEOUT = Duration.ofSeconds(15);
 
+    private static TurnState stateAfterPlayingAllCardsIn(CardSet cards, Color trump, PlayerId firstPlayer) {
+        TurnState s = TurnState.initial(trump, Score.INITIAL, firstPlayer);
+        for (int i = 0; i < cards.size(); ++i)
+            s = s.withNewCardPlayedAndTrickCollected(cards.get(i));
+        return s;
+    }
+
     @Test
     void constructorFailsWithTooFewIterations() {
         for (int i = -10; i < 9; ++i) {
@@ -390,12 +397,5 @@ public class MctsPlayerTest {
             Card c = p.cardToPlay(state, hand);
             assertEquals(Card.of(Color.HEART, Rank.TEN), c);
         });
-    }
-
-    private static TurnState stateAfterPlayingAllCardsIn(CardSet cards, Color trump, PlayerId firstPlayer) {
-        TurnState s = TurnState.initial(trump, Score.INITIAL, firstPlayer);
-        for (int i = 0; i < cards.size(); ++i)
-            s = s.withNewCardPlayedAndTrickCollected(cards.get(i));
-        return s;
     }
 }

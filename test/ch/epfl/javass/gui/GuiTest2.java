@@ -15,7 +15,9 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 public final class GuiTest2 extends Application {
-    public static void main(String[] args) { launch(args); }
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -47,7 +49,7 @@ public final class GuiTest2 extends Application {
 
                 if (s.trick().isFull()) {
                     s = s.withTrickCollected();
-                    for (TeamId t: TeamId.ALL)
+                    for (TeamId t : TeamId.ALL)
                         scoreBean.setTurnPoints(t, s.score().turnPoints(t));
                 }
             }

@@ -11,17 +11,17 @@ import java.util.List;
  * @author Marcel Torne (299366)
  */
 public enum TeamId {
-	TEAM_1, TEAM_2;
+    TEAM_1, TEAM_2;
 
-	public static final List<TeamId> ALL = Collections.unmodifiableList(Arrays.asList(values()));
-	public static final int COUNT = ALL.size();
+    public static final List<TeamId> ALL = Collections.unmodifiableList(Arrays.asList(values()));
+    public static final int COUNT = ALL.size();
 
-	/**
-	 * Returns the opposite team, if Team1 returns Team2 and if Team2 returns Team1
-	 * 
-	 * @return the opposite team
-	 */
-	public TeamId other() {
-		return (this.equals(TEAM_1)) ? TEAM_2 : TEAM_1;
-	}
+    /**
+     * Returns the opposite team, if Team1 returns Team2 and if Team2 returns Team1
+     *
+     * @return the opposite team
+     */
+    public TeamId other() {
+        return (this.equals(TEAM_1)) ? TEAM_2 : TEAM_1;
+    }
 }

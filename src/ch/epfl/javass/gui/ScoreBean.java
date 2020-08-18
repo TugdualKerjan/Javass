@@ -4,7 +4,9 @@ import ch.epfl.javass.jass.TeamId;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;;
+import javafx.beans.property.SimpleObjectProperty;
+
+;
 
 /**
  * ScoreBean is a class that represents the score and will be used in the
@@ -34,9 +36,8 @@ public final class ScoreBean {
 
     /**
      * Get turn points
-     * 
-     * @param team
-     *            to get them from
+     *
+     * @param team to get them from
      * @return turnPointsProperty
      */
     public ReadOnlyIntegerProperty turnPointsProperty(TeamId team) {
@@ -45,11 +46,9 @@ public final class ScoreBean {
 
     /**
      * Set turn points
-     * 
-     * @param team
-     *            to set them to
-     * @param newTurnPoints
-     *            to set
+     *
+     * @param team          to set them to
+     * @param newTurnPoints to set
      */
     public void setTurnPoints(TeamId team, int newTurnPoints) {
         turnPoints[team.ordinal()].set(newTurnPoints);
@@ -57,9 +56,8 @@ public final class ScoreBean {
 
     /**
      * Get game points
-     * 
-     * @param team
-     *            to get them from
+     *
+     * @param team to get them from
      * @return gamePointsProperty
      */
     public ReadOnlyIntegerProperty gamePointsProperty(TeamId team) {
@@ -68,11 +66,9 @@ public final class ScoreBean {
 
     /**
      * Set game points
-     * 
-     * @param team
-     *            to set them to
-     * @param newGamePoints
-     *            to set
+     *
+     * @param team          to set them to
+     * @param newGamePoints to set
      */
     public void setGamePoints(TeamId team, int newGamePoints) {
         gamePoints[team.ordinal()].set(newGamePoints);
@@ -80,9 +76,8 @@ public final class ScoreBean {
 
     /**
      * Get total points
-     * 
-     * @param team
-     *            to get them from
+     *
+     * @param team to get them from
      * @return totalPointsProperty
      */
     public ReadOnlyIntegerProperty totalPointsProperty(TeamId team) {
@@ -91,11 +86,9 @@ public final class ScoreBean {
 
     /**
      * Set total points
-     * 
-     * @param team
-     *            to set them to
-     * @param newTotalPoints
-     *            to set
+     *
+     * @param team           to set them to
+     * @param newTotalPoints to set
      */
     public void setTotalPoints(TeamId team, int newTotalPoints) {
         totalPoints[team.ordinal()].set(newTotalPoints);
@@ -103,7 +96,7 @@ public final class ScoreBean {
 
     /**
      * Get the winning team
-     * 
+     *
      * @return winningTeam
      */
     public ReadOnlyObjectProperty<TeamId> winningTeamProperty() {
@@ -112,9 +105,8 @@ public final class ScoreBean {
 
     /**
      * Set winning team
-     * 
-     * @param winningTeam
-     *            winning team
+     *
+     * @param winningTeam winning team
      */
     public void setWinningTeam(TeamId winningTeam) {
         this.winningTeam.set(winningTeam);

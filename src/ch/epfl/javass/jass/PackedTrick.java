@@ -1,27 +1,21 @@
 package ch.epfl.javass.jass;
 
-import java.util.StringJoiner;
-
 import ch.epfl.javass.bits.Bits32;
 import ch.epfl.javass.jass.Card.Color;
 import ch.epfl.javass.jass.Card.Rank;
+
+import java.util.StringJoiner;
 
 /**
  * Class that consists on a set of static methods that will be used for the
  * Trick class . This methods do several things as creating new tricks in the
  * form of an integer and adding cards to this trick. In this class the Tricks
  * are represented as an Integer.
- * 
+ *
  * @author Tugdual Kerjan (297804)
  * @author Marcel Torne (299366)
  */
 public final class PackedTrick {
-    /*
-     * Non instantiable class
-     */
-    private PackedTrick() {
-    }
-
     public static final int INVALID = -1;
     private static final int BITS_USED_PER_CARD = 6;
     private static final int BITS_USED_PER_PLAYER = 2;
@@ -39,12 +33,16 @@ public final class PackedTrick {
     private static final int POSITION_INDEX_BITS_REP = 24;
     private static final int POSITION_PLAYER_BITS_REP = 28;
     private static final int POSITION_TRUMP_BITS_REP = 30;
+    /*
+     * Non instantiable class
+     */
+    private PackedTrick() {
+    }
 
     /**
      * Checks if the packedTrick is valid
-     * 
-     * @param pkTrick,
-     *            the trick to verify
+     *
+     * @param pkTrick, the trick to verify
      * @return true if pkTrick valid
      */
     public static boolean isValid(int pkTrick) {
@@ -89,11 +87,9 @@ public final class PackedTrick {
 
     /**
      * Create an empty packedTrick
-     * 
-     * @param trump
-     *            the color of the trump Cards
-     * @param firstPlayer
-     *            the first player to play
+     *
+     * @param trump       the color of the trump Cards
+     * @param firstPlayer the first player to play
      * @return int packedTrick
      */
     public static int firstEmpty(Color trump, PlayerId firstPlayer) {
@@ -106,9 +102,8 @@ public final class PackedTrick {
 
     /**
      * Based of the old packedTrick create a fresh version
-     * 
-     * @param pkTrick
-     *            the packedTrick to base the new one on
+     *
+     * @param pkTrick the packedTrick to base the new one on
      * @return packedTrick with just the winning player, index and trump
      */
     public static int nextEmpty(int pkTrick) {
@@ -126,9 +121,8 @@ public final class PackedTrick {
 
     /**
      * Check if packedTrick is empty
-     * 
-     * @param pkTrick
-     *            the round to check
+     *
+     * @param pkTrick the round to check
      * @return true if it is empty
      */
     public static boolean isEmpty(int pkTrick) {
@@ -138,9 +132,8 @@ public final class PackedTrick {
 
     /**
      * Check if packedTrick is full
-     * 
-     * @param pkTrick
-     *            the round to check
+     *
+     * @param pkTrick the round to check
      * @return true if it is full
      */
     public static boolean isFull(int pkTrick) {
@@ -150,9 +143,8 @@ public final class PackedTrick {
 
     /**
      * Check if the given is the last trick
-     * 
-     * @param pkTrick
-     *            round to check
+     *
+     * @param pkTrick round to check
      * @return true if last round
      */
     public static boolean isLast(int pkTrick) {
@@ -162,9 +154,8 @@ public final class PackedTrick {
 
     /**
      * Return the amount of cards in the packedTrick
-     * 
-     * @param pkTrick
-     *            the trick to count
+     *
+     * @param pkTrick the trick to count
      * @return int current amount of cards in that trick
      */
     public static int size(int pkTrick) {
@@ -180,9 +171,8 @@ public final class PackedTrick {
 
     /**
      * Returns the color of the trump
-     * 
-     * @param pkTrick
-     *            round to get trump
+     *
+     * @param pkTrick round to get trump
      * @return color of trump (not orange)
      */
     public static Color trump(int pkTrick) {
@@ -194,11 +184,9 @@ public final class PackedTrick {
 
     /**
      * Return the player who will play at a certain index
-     * 
-     * @param pkTrick
-     *            trick to check
-     * @param index
-     *            of the player
+     *
+     * @param pkTrick trick to check
+     * @param index   of the player
      * @return player at that index
      */
     public static PlayerId player(int pkTrick, int index) {
@@ -214,9 +202,8 @@ public final class PackedTrick {
 
     /**
      * Return the trick number
-     * 
-     * @param pkTrick
-     *            trick to check
+     *
+     * @param pkTrick trick to check
      * @return index of this trick
      */
     public static int index(int pkTrick) {
@@ -226,11 +213,9 @@ public final class PackedTrick {
 
     /**
      * Return the card at a certain index
-     * 
-     * @param pkTrick
-     *            trick with the card
-     * @param index
-     *            of the card
+     *
+     * @param pkTrick trick with the card
+     * @param index   of the card
      * @return card at that index
      */
     public static int card(int pkTrick, int index) {
@@ -240,11 +225,9 @@ public final class PackedTrick {
 
     /**
      * Add a card to a trick
-     * 
-     * @param pkTrick
-     *            trick to add card to
-     * @param pkCard
-     *            card to add
+     *
+     * @param pkTrick trick to add card to
+     * @param pkCard  card to add
      * @return packedTrick with the card in it
      */
     public static int withAddedCard(int pkTrick, int pkCard) {
@@ -259,9 +242,8 @@ public final class PackedTrick {
     /**
      * Return base color used in the given trick, the first card is supposed to
      * have been played
-     * 
-     * @param pkTrick
-     *            trick to check
+     *
+     * @param pkTrick trick to check
      * @return color used as base
      */
     public static Color baseColor(int pkTrick) {
@@ -272,11 +254,9 @@ public final class PackedTrick {
     /**
      * Return the cards that a certain hand can play taking into acount the
      * given trick
-     * 
-     * @param pkTrick
-     *            trick to compare to
-     * @param pkHand
-     *            hand with cards
+     *
+     * @param pkTrick trick to compare to
+     * @param pkHand  hand with cards
      * @return packedCardSet containing all cards you can use
      */
     public static long playableCards(int pkTrick, long pkHand) {
@@ -290,9 +270,9 @@ public final class PackedTrick {
         }
 
         // Cards currently in game
-        int[] cartes = new int[] { card(pkTrick, FIRST_CARD),
+        int[] cartes = new int[]{card(pkTrick, FIRST_CARD),
                 card(pkTrick, SECOND_CARD), card(pkTrick, THIRD_CARD),
-                card(pkTrick, FOURTH_CARD) };
+                card(pkTrick, FOURTH_CARD)};
 
         // Basecolor and trump
         Color base = baseColor(pkTrick);
@@ -373,9 +353,8 @@ public final class PackedTrick {
 
     /**
      * Return how many points a packedTrick is worth
-     * 
-     * @param pkTrick
-     *            to calculate worth
+     *
+     * @param pkTrick to calculate worth
      * @return amount of points worth
      */
     public static int points(int pkTrick) {
@@ -392,16 +371,15 @@ public final class PackedTrick {
 
     /**
      * Return the player currently winning the given trick
-     * 
-     * @param pkTrick
-     *            trick to check
+     *
+     * @param pkTrick trick to check
      * @return player currently winning
      */
     public static PlayerId winningPlayer(int pkTrick) {
         assert isValid(pkTrick);
-        int[] cartes = new int[] { card(pkTrick, FIRST_CARD),
+        int[] cartes = new int[]{card(pkTrick, FIRST_CARD),
                 card(pkTrick, SECOND_CARD), card(pkTrick, THIRD_CARD),
-                card(pkTrick, FOURTH_CARD) };
+                card(pkTrick, FOURTH_CARD)};
         int carteGagnante = cartes[0];
         int indexCarteGagnante = 0;
         for (int i = 1; i < size(pkTrick); ++i) {
@@ -417,9 +395,8 @@ public final class PackedTrick {
 
     /**
      * Display the played cards in packedTrick
-     * 
-     * @param pkTrick
-     *            trick to display
+     *
+     * @param pkTrick trick to display
      * @return String that contains the information
      */
     public static String toString(int pkTrick) {

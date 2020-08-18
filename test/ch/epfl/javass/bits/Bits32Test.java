@@ -143,8 +143,8 @@ public final class Bits32Test {
             int[] v = getValues(rng, s);
             int packed = Bits32.pack(v[0], s[0], v[1], s[1]);
             for (int j = 0; j < s.length; ++j) {
-              assertEquals(v[j], packed & ((1 << s[j]) - 1));
-              packed >>>= s[j];
+                assertEquals(v[j], packed & ((1 << s[j]) - 1));
+                packed >>>= s[j];
             }
             assertEquals(0, packed);
         }

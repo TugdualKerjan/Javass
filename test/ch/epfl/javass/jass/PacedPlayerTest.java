@@ -16,7 +16,7 @@ public class PacedPlayerTest {
     @Test
     void pacedPlayerCorrectlyReturnsCardPlayed() {
         assertTimeoutPreemptively(Duration.ofSeconds(10), () -> {
-            for (Color color: Color.ALL) {
+            for (Color color : Color.ALL) {
                 TurnState state = TurnState.initial(color, Score.INITIAL, PlayerId.PLAYER_1);
                 CardSet hand = CardSet.ALL_CARDS.subsetOfColor(color);
                 for (int i = 0; i < hand.size(); ++i) {
@@ -44,7 +44,7 @@ public class PacedPlayerTest {
             TestPlayer tp = new TestPlayer();
             Player pp = new PacedPlayer(tp, 1e-3);
             Map<PlayerId, String> playerNames = new EnumMap<>(PlayerId.class);
-            for (PlayerId pId: PlayerId.ALL)
+            for (PlayerId pId : PlayerId.ALL)
                 playerNames.put(pId, "Le joueur : " + pId.name());
             pp.setPlayers(PlayerId.PLAYER_3, playerNames);
             assertEquals(1, tp.setPlayersCallCount);

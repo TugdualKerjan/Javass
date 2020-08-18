@@ -1,19 +1,15 @@
 package ch.epfl.javass;
 
+import ch.epfl.javass.gui.GraphicalPlayerAdapter;
+import ch.epfl.javass.jass.*;
+import ch.epfl.javass.net.RemotePlayerClient;
+import javafx.application.Application;
+import javafx.stage.Stage;
+
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
-import ch.epfl.javass.gui.GraphicalPlayerAdapter;
-import ch.epfl.javass.jass.JassGame;
-import ch.epfl.javass.jass.MctsPlayer;
-import ch.epfl.javass.jass.PacedPlayer;
-import ch.epfl.javass.jass.Player;
-import ch.epfl.javass.jass.PlayerId;
-import ch.epfl.javass.net.RemotePlayerClient;
-import javafx.application.Application;
-import javafx.stage.Stage;
 
 /**
  * Class that serves to launch a game if you want to be the host. You have to
@@ -24,7 +20,7 @@ import javafx.stage.Stage;
  * défaut 10000 iterations(ATTENTION: le nombre d'iterations doit être plus
  * grand ou égale à 10) r:<nom>: <IP_du_joueur_distant> un joueur distant avec
  * la ip donnée par défaut il va se jouer sur l'ordinateur courrant
- * 
+ *
  * @author Tugdual Kerjan (297804)
  * @author Marcel Torne (299366)
  */
@@ -32,8 +28,8 @@ public final class LocalMain extends Application {
 
     private static final int MCTS_ITERATIONS_DEFAULT = 10_000;
     private static final String IP_HOST_DEFAULT = "localhost";
-    private static final String[] PLAYER_NAMES_DEFAULT = { "Aline", "Bastien",
-            "Colette", "David" };
+    private static final String[] PLAYER_NAMES_DEFAULT = {"Aline", "Bastien",
+            "Colette", "David"};
     private static final String HUMAN_PLAYER = "h";
     private static final String SIMULATED_PLAYER = "s";
     private static final String DISTANT_PLAYER = "r";
@@ -71,7 +67,7 @@ public final class LocalMain extends Application {
     /**
      * main that will launch the game with the given arguments. For it to work
      * properly you have to follow the style given above.
-     * 
+     *
      * @param args
      */
     public static void main(String[] args) {
@@ -140,14 +136,12 @@ public final class LocalMain extends Application {
      * method that creates a map of all the players taking into account the
      * given arguments describing which players does the user want and how does
      * he want them.
-     * 
-     * @param playersArgs
-     *            corresponding to the information describing each player and
-     *            ordered by the ordinal of the players.
-     * 
+     *
+     * @param playersArgs corresponding to the information describing each player and
+     *                    ordered by the ordinal of the players.
      * @return map of the players and its id if all the given arguments where
-     *         correctly written if not the program will stop and an error
-     *         message will be printed on the console
+     * correctly written if not the program will stop and an error
+     * message will be printed on the console
      */
     private Map<PlayerId, Player> createPlayersMap(String[][] playersArgs) {
         Map<PlayerId, Player> players = new EnumMap<>(PlayerId.class);
@@ -161,12 +155,11 @@ public final class LocalMain extends Application {
      * method that fills the map of playerNames with the ids of each of the
      * players and his the given name, if no name is given a default name is
      * taken. Will finally return this map.
-     * 
-     * @param playersArgs
-     *            are the arguments corresponding to each player information
-     *            ordered with respect to their the ordinal
+     *
+     * @param playersArgs are the arguments corresponding to each player information
+     *                    ordered with respect to their the ordinal
      * @return playerNames which is a map with the names of each player and its
-     *         corresponding id.
+     * corresponding id.
      */
     private Map<PlayerId, String> createPlayerNamesMap(String[][] playersArgs) {
         Map<PlayerId, String> playerNames = new EnumMap<>(PlayerId.class);
@@ -189,15 +182,12 @@ public final class LocalMain extends Application {
      * arguments are correctly written it will create a new player and will put
      * it with its id in the map of the class if the arguments are not correctly
      * written it will print a message of error and will stop the program.
-     * 
-     * @param id
-     *            of the player you want to create
-     * @param arguments
-     *            to create the players ordered by their ordinal
-     * 
+     *
+     * @param id        of the player you want to create
+     * @param arguments to create the players ordered by their ordinal
      * @return Player if it corresponded to one of the available and if the
-     *         arguments where correct if not it exits the program and prints a
-     *         message error
+     * arguments where correct if not it exits the program and prints a
+     * message error
      */
     private Player createPlayerFrom(PlayerId id, String[][] playersArgs) {
         String[] args = playersArgs[id.ordinal()];
@@ -205,32 +195,32 @@ public final class LocalMain extends Application {
         String playerType = args[POSITION_OF_PL_TYPE_IN_ARG];
 
         switch (playerType) {
-        case HUMAN_PLAYER: {
-            return humanSettings(args);
+            case HUMAN_PLAYER: {
+                return humanSettings(args);
 
-        }
-        case SIMULATED_PLAYER: {
-            return simulatedSettings(args, id);
+            }
+            case SIMULATED_PLAYER: {
+                return simulatedSettings(args, id);
 
-        }
-        case DISTANT_PLAYER: {
-            return distantSettings(args, id);
+            }
+            case DISTANT_PLAYER: {
+                return distantSettings(args, id);
 
-        }
-        default: {
-            System.err.print(
-                    "Le joueur que vous avez décrit ne correspond a aucun de ceux"
-                            + " qu'on vous propose\n"
-                            + "Le premier charactère de chaque argument définie le type"
-                            + " du joueur\n"
-                            + "Il doit être compris dans un de ces trois:\n"
-                            + "h: pour un joueur humain\n"
-                            + "s: pour un joueur simulé\n"
-                            + "r: pour un joueur distant\n"
-                            + "\nOn vous rappelle comment utiliser ce programme:\n"
-                            + MESSAGE_GENERAL);
-            System.exit(FAILED);
-        }
+            }
+            default: {
+                System.err.print(
+                        "Le joueur que vous avez décrit ne correspond a aucun de ceux"
+                                + " qu'on vous propose\n"
+                                + "Le premier charactère de chaque argument définie le type"
+                                + " du joueur\n"
+                                + "Il doit être compris dans un de ces trois:\n"
+                                + "h: pour un joueur humain\n"
+                                + "s: pour un joueur simulé\n"
+                                + "r: pour un joueur distant\n"
+                                + "\nOn vous rappelle comment utiliser ce programme:\n"
+                                + MESSAGE_GENERAL);
+                System.exit(FAILED);
+            }
             return null;
         }
     }
@@ -240,9 +230,8 @@ public final class LocalMain extends Application {
      * check if the arguments are correct and if not it will stop and print a
      * message of error. I everything is correct it will create a Graphical
      * player adapter and will return it.
-     * 
-     * @param args
-     *            where the information of the player is
+     *
+     * @param args where the information of the player is
      * @return a graphical player adapter if all the arguments where correct
      */
     private Player humanSettings(String[] args) {
@@ -263,13 +252,11 @@ public final class LocalMain extends Application {
      * player. Then it will check if all the arguments given are correct with
      * respect to our rules stated at the beginning. And it will finally return
      * an MCTS player.
-     * 
-     * @param args
-     *            where the information of the player is
-     * @param id
-     *            of this player
+     *
+     * @param args where the information of the player is
+     * @param id   of this player
      * @return an MCTS player if all the arguments given where in accordance
-     *         with our rules
+     * with our rules
      */
     private Player simulatedSettings(String[] args, PlayerId id) {
         if (args.length > MAX_ARG_ALLOWED_SIMULATED_PL) {
@@ -312,11 +299,9 @@ public final class LocalMain extends Application {
      * It will check that all the arguments are correct according to our rules
      * and if it is the case it will create a RemotePlayerClient and will return
      * it.
-     * 
-     * @param args
-     *            with all the information to create the player
-     * @param id
-     *            of the player
+     *
+     * @param args with all the information to create the player
+     * @param id   of the player
      * @return a RemotePlayerClient if the given arguments where correct
      */
     private Player distantSettings(String[] args, PlayerId id) {
@@ -333,8 +318,8 @@ public final class LocalMain extends Application {
             // the case we put the localhost
             String ip = (args.length == MAX_ARG_ALLOWED_DISTANT_PL
                     && !args[POSITION_OF_IP_IN_ARG].isEmpty())
-                            ? args[POSITION_OF_IP_IN_ARG]
-                            : IP_HOST_DEFAULT;
+                    ? args[POSITION_OF_IP_IN_ARG]
+                    : IP_HOST_DEFAULT;
             return new RemotePlayerClient(ip);
 
         } catch (Exception e) {
